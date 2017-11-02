@@ -1,1 +1,0 @@
-<gmd:keyword><gco:CharacterString><?php print $label; ?></gco:CharacterString></gmd:keyword>
