@@ -52,15 +52,23 @@ function sensorml_field_formatter_info() {
       'phonetype' => 'voice',
     ),
   );
+  
   $info['date_sensorml_temporalCoverage'] = array(
     'label' => t('sensorML temporalCoverage'),
     'field types' => array('date', 'datestamp', 'datetime'),
   );
+  
   $info['geofield_sensorml_boundingCoordinates'] = array(
     'label' => t('sensorML boundingCoordinates'),
     'field types' => array('geofield'),
   );
-
+  
+  $info['geofield_sensorml_representativePoint'] = array(
+    'label' => t('sensorML representativePoint'),
+    'field types' => array('geofield'),
+  );
+  
+ 
   $info['sensorml_text'] = array(
     'label' => t('sensorML text'),
     'field types' => array('text', 'text_long', 'text_with_summary'),
@@ -323,12 +331,24 @@ function sensorml_field_formatter_view($entity_type, $entity, $field, $instance,
           '#sensorml' => array(
             'gmd:westBoundLongitude' => array('gco:Decimal' => $item['right']),
             'gmd:eastBoundLongitude' => array('gco:Decimal' => $item['left']),
-            'gmd:southBoundLatitude' => array('gco:Decimal' =>  $item['bottom']),
+            'gmd:southBoundLatitude' => array('gco:Decimal' => $item['bottom']),
             'gmd:northBoundLatitude' => array('gco:Decimal' => $item['top']),
           ),
         );
       }
       break;
+	   
+	case 'geofield_sensorml_representativePoint':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'sensorml_elements',
+          '#sensorml' => array(
+			'gml:pos srsName="http://www.opengis.net/def/crs/EPSG/0/4326"' => ($item['top'] .' '. $item['left'])
+          ),
+        );
+      }
+      break;
+	  
 
     case 'telephone_sensorml_phone':
       foreach ($items as $delta => $item) {

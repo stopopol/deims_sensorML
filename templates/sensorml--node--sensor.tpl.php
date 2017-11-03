@@ -13,8 +13,8 @@ $keywords = render($content['field_keywords_envthes']);
 $parent_site = render($content['field_parent_site_name']);
 $sensor_type = render($content['field_sensortype']);
 $contact = render($content['field_person_contact']);
-
-
+$deims_sensor_url = $deimsURL . "/sensor/" . $uuid;
+$coordinates = render($content['field_coordinates']);
 ?>
 
 <?php echo '<?xml version="1.0" encoding="UTF-8" ?>'; ?>
@@ -75,12 +75,12 @@ xmlns:sf="http://www.opengis.net/sampling/2.0">
       <sml:FeatureList>
         <sml:feature>
           <sams:SF_SpatialSamplingFeature gml:id="SamplingPoint1">
-            <gml:identifier codeSpace=""> http://myServer.org/features/SamplingPointAt52NorthHeadquarters</gml:identifier>
+            <gml:identifier codeSpace=""> <?php echo $deims_sensor_url; ?></gml:identifier>
             <sf:type xlink:href="http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint"/>
             <sf:sampledFeature xsi:nil="true"/>
             <sams:shape>
-              <gml:Point gml:id="UOMlocation">
-                <gml:pos srsName="http://www.opengis.net/def/crs/EPSG/0/4326">50.7167 7.76667</gml:pos>
+              <gml:Point gml:id="stationLocation">
+                 <?php echo $coordinates; ?>
               </gml:Point>
             </sams:shape>
           </sams:SF_SpatialSamplingFeature>
@@ -102,4 +102,5 @@ xmlns:sf="http://www.opengis.net/sampling/2.0">
         </sml:output>
       </sml:OutputList>
     </sml:outputs>
+	
 </sml:PhysicalSystem>
