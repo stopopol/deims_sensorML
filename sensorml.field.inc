@@ -9,6 +9,7 @@
  * Implements hook_field_formatter_info().
  */
 function sensorml_field_formatter_info() {
+	
   $info['taxonomy_sensorml_keywordset'] = array(
     'label' => t('sensorML keywordSet'),
     'field types' => array('taxonomy_term_reference'),
@@ -17,6 +18,7 @@ function sensorml_field_formatter_info() {
       'thesaurus_value' => '[term:vocabulary]',
     ),
   );
+  
   $info['entityreference_sensorml_element'] = array(
     'label' => t('sensorML element'),
     'field types' => array('entityreference'),
@@ -25,11 +27,11 @@ function sensorml_field_formatter_info() {
       'multiple' => 0,
     ),
   );
+  
   $info['name_sensorml_individualName'] = array(
     'label' => t('sensorML individualName'),
     'field types' => array('name'),
   );
-  
   
   $info['addressfield_sensorml_address'] = array(
     'label' => t('sensorML address'),
@@ -68,10 +70,18 @@ function sensorml_field_formatter_info() {
     'field types' => array('geofield'),
   );
   
- 
   $info['sensorml_text'] = array(
     'label' => t('sensorML text'),
     'field types' => array('text', 'text_long', 'text_with_summary'),
+  );
+    
+  $info['sensorml_media_monitored'] = array(
+    'label' => t('sensorML media_monitored'),
+    'field types' => array('taxonomy_term_reference'),
+    'settings' => array(
+      'keyword_value' => '[term:name]',
+      'thesaurus_value' => '[term:vocabulary]',
+    ),
   );
   
     // KLIMETO
@@ -404,6 +414,26 @@ function sensorml_field_formatter_view($entity_type, $entity, $field, $instance,
         );
       }
       break;
+	  
+	case 'sensorml_media_monitored':
+		
+		foreach ($items as $delta => $item) {
+			$current_value = taxonomy_term_load($item["tid"]);
+			$title = $current_value->name;
+			$field_term_url = $current_value->field_url;
+			$envthes_term_url = $field_term_url["und"][0]["value"];
+			
+			$element[$delta] = array(
+				'#theme' => 'sensorml_elements',
+				'#sensorml' => array(
+					"sml:output name = '$title'" => array("swe:Quantity definition='$envthes_term_url'" => array("swe:uom code" => ""),
+				),
+          ),
+        );
+				
+      }  
+	  
+      break;  
 	  
 	  // klimeto
 	  case 'sensorml_text_ipr':

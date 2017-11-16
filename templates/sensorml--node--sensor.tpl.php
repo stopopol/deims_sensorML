@@ -15,6 +15,7 @@ $sensor_type = render($content['field_sensortype']);
 $contact = render($content['field_person_contact']);
 $deims_sensor_url = $deimsURL . "/sensor/" . $uuid;
 $coordinates = render($content['field_coordinates']);
+$parameters = render($content['field_parameters_taxonomy']);
 ?>
 
 <?php echo '<?xml version="1.0" encoding="UTF-8" ?>'; ?>
@@ -90,16 +91,7 @@ xmlns:sf="http://www.opengis.net/sampling/2.0">
 
     <sml:outputs>
       <sml:OutputList>
-        <sml:output name="precipitation">
-          <swe:Quantity definition="http://sweet.jpl.nasa.gov/2.3/phen.owl#Precipitation">
-            <swe:uom code="mm"/>
-          </swe:Quantity>
-        </sml:output>
-        <sml:output name="temperature">
-          <swe:Quantity definition="http://sweet.jpl.nasa.gov/2.3/propTemperature.owl#Temperature">
-            <swe:uom code="Cel"/>
-          </swe:Quantity>
-        </sml:output>
+		<?php echo $parameters; ?>
       </sml:OutputList>
     </sml:outputs>
 	
