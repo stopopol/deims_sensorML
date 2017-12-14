@@ -429,7 +429,7 @@ function sensorml_field_formatter_view($entity_type, $entity, $field, $instance,
 			$element[$delta] = array(
 				'#theme' => 'sensorml_elements',
 				'#sensorml' => array(
-					"sml:output name = '$title_wo_parentheses'" => array("swe:Quantity definition='$envthes_term_url'" => array("swe:uom code" => "filler_value"),
+					"sml:output name = '$title_wo_parentheses'" => array("swe:Quantity definition='$envthes_term_url'" => array("swe:uom code = 'filler_code'" => "filler_value"),
 				),
           ),
         );
@@ -438,8 +438,7 @@ function sensorml_field_formatter_view($entity_type, $entity, $field, $instance,
 	  
       break;  
 	  
-	  // klimeto
-	  case 'sensorml_text_ipr':
+	case 'sensorml_text_ipr':
       foreach ($items as $delta => $item) {
         $text = _text_sanitize($instance, $langcode, $item, 'value');
         $element[$delta] = array(
