@@ -1,25 +1,27 @@
 ﻿<?php
 
-ini_set( 'default_charset', 'UTF-8' );
+	ini_set( 'default_charset', 'UTF-8' );
 
-$deimsURL = $GLOBALS['base_url'];
+	$deimsURL = $GLOBALS['base_url'];
 
-$node = menu_get_object();
+	$node = menu_get_object();
 
-// necessary sensorML variables
-$uuid = render($content['field_uuid']);
-$description = render($content['field_description']);
-$keywords = render($content['field_keywords_envthes']);
-$parent_site = render($content['field_parent_site_name']);
-$sensor_type = render($content['field_sensortype']);
-$contact = render($content['field_person_contact']);
-$deims_sensor_url = $deimsURL . "/sensor/" . $uuid;
-$coordinates = render($content['field_coordinates']);
-$parameters = render($content['field_parameters_taxonomy']);
+	// necessary sensorML variables - all required fields on DEIMS-SDR
+	$uuid = render($content['field_uuid']);
+	$description = render($content['field_description']);
+	$keywords = render($content['field_keywords_envthes']);
+	$parent_site = render($content['field_parent_site_name']);
+	$sensor_type = render($content['field_sensortype']);
+	$contact = render($content['field_person_contact']);
+	$deims_sensor_url = $deimsURL . "/sensor/" . $uuid;
+	$coordinates = render($content['field_coordinates']);
+	$parameters = render($content['field_parameters_taxonomy']);
+	$label_wo_whitespace = str_replace(' ', '_', $label);
+
 ?>
 
 <?php echo '<?xml version="1.0" encoding="UTF-8" ?>'; ?>
-<sml:PhysicalSystem gml:id="<?php echo print ($label); ?>" 
+<sml:PhysicalSystem gml:id="<?php echo ($label_wo_whitespace); ?>"
 xmlns:sml="http://www.opengis.net/sensorml/2.0"
 xmlns:swe="http://www.opengis.net/swe/2.0"
 xmlns:gml="http://www.opengis.net/gml/3.2"
@@ -30,30 +32,36 @@ xmlns:xlink="http://www.w3.org/1999/xlink"
 xsi:schemaLocation="http://www.opengis.net/sensorml/2.0 http://schemas.opengis.net/sensorml/2.0/sensorML.xsd"
 xmlns:sams="http://www.opengis.net/samplingSpatial/2.0"
 xmlns:sf="http://www.opengis.net/sampling/2.0">
-<!-- not sure if the definitions for sams and sf really belong here --> 
-
     <gml:description><?php echo $description; ?></gml:description>
-    <!--Unique identifier -->
     <gml:identifier codeSpace="uniqueID"><?php echo $uuid; ?></gml:identifier>
-
-    <?php print render($content['keywordSets']); ?></sml:keyword>
-
+    <sml:keywords><?php print render($content['keywordSets']); ?></sml:keywords>
     <sml:identification>
       <sml:IdentifierList>
         <sml:identifier>
           <sml:Term definition="urn:ogc:def:identifier:OGC:1.0:shortName">
             <sml:label>short name</sml:label>
-            <sml:value><?php echo print ($label); ?></sml:value>
+            <sml:value><?php echo $label; ?></sml:value>
           </sml:Term>
         </sml:identifier>
         <sml:identifier>
           <sml:Term definition="urn:ogc:def:identifier:OGC:1.0:longName">
             <sml:label>long name</sml:label>
-            <sml:value><?php echo print ($label); ?> deployed at site <?php echo $parent_site; ?></sml:value>
+            <sml:value><?php echo $label ; ?> deployed at site <?php echo $parent_site; ?></sml:value>
           </sml:Term>
         </sml:identifier>
       </sml:IdentifierList>
     </sml:identification>
+	
+	<sml:capabilities name="offerings">
+        <sml:CapabilityList>
+            <sml:capability name="offeringID">
+                <swe:Text definition="urn:ogc:def:identifier:OGC:offeringID">
+                    <swe:label>Main Offering</swe:label>
+					<swe:value><?php echo $uuid; ?>/offering/1</swe:value>
+                </swe:Text>
+            </sml:capability>
+        </sml:CapabilityList>
+    </sml:capabilities>
 
     <sml:classification>
       <sml:ClassifierList>
@@ -68,7 +76,7 @@ xmlns:sf="http://www.opengis.net/sampling/2.0">
 
     <sml:contacts>
 		<sml:ContactList>
-            <?php echo ($contact); ?>
+            <?php echo $contact; ?>
 		</sml:ContactList>
     </sml:contacts>
 

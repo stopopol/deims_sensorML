@@ -21,10 +21,12 @@ if ($url){
 	$url = "<gmd:onlineResource><gmd:CI_OnlineResource><gmd:linkage><gmd:URL>" . $organization . "</gmd:URL></gmd:linkage></gmd:CI_OnlineResource></gmd:onlineResource>";
 }						
 
+
+// formatters print "name" and "organization" with proper format
 ?>
 <sml:contact>
 	<gmd:CI_ResponsibleParty>
-		<gmd:individualName><?php echo $name ?></gmd:individualName>
+		<?php echo $name ?>
 		<?php echo $organization ?> 
 		<gmd:positionName>
 			<gco:CharacterString>Sensor Contact person</gco:CharacterString>

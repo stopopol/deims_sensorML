@@ -422,11 +422,14 @@ function sensorml_field_formatter_view($entity_type, $entity, $field, $instance,
 			$title = $current_value->name;
 			$field_term_url = $current_value->field_url;
 			$envthes_term_url = $field_term_url["und"][0]["value"];
+			$title_wo_whitespace = str_replace(' ', '_', $title);
+			
+			$title_wo_parentheses = str_replace(array( '(', ')', '[', ']', '{', '}' ), '_', $title_wo_whitespace);
 			
 			$element[$delta] = array(
 				'#theme' => 'sensorml_elements',
 				'#sensorml' => array(
-					"sml:output name = '$title'" => array("swe:Quantity definition='$envthes_term_url'" => array("swe:uom code" => ""),
+					"sml:output name = '$title_wo_parentheses'" => array("swe:Quantity definition='$envthes_term_url'" => array("swe:uom code" => "filler_value"),
 				),
           ),
         );
