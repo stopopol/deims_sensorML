@@ -52,6 +52,17 @@ xmlns:sf="http://www.opengis.net/sampling/2.0">
       </sml:IdentifierList>
     </sml:identification>
 	
+	<sml:classification>
+      <sml:ClassifierList>
+        <sml:classifier>
+          <sml:Term definition="http://www.opengis.net/def/property/OGC/0/SensorType">
+            <sml:label>sensorType</sml:label>
+            <sml:value><?php echo $sensor_type; ?></sml:value>
+          </sml:Term>
+        </sml:classifier>
+      </sml:ClassifierList>
+    </sml:classification>
+	
 	<sml:capabilities name="offerings">
         <sml:CapabilityList>
             <sml:capability name="offeringID">
@@ -63,23 +74,12 @@ xmlns:sf="http://www.opengis.net/sampling/2.0">
         </sml:CapabilityList>
     </sml:capabilities>
 
-    <sml:classification>
-      <sml:ClassifierList>
-        <sml:classifier>
-          <sml:Term definition="http://www.opengis.net/def/property/OGC/0/SensorType">
-            <sml:label>sensorType</sml:label>
-            <sml:value><?php echo $sensor_type; ?></sml:value>
-          </sml:Term>
-        </sml:classifier>
-      </sml:ClassifierList>
-    </sml:classification>
+	<sml:contacts>
+		<sml:ContactList><?php echo $contact; ?></sml:ContactList>
+	</sml:contacts>
 
-    <sml:contacts>
-		<sml:ContactList>
-            <?php echo $contact; ?>
-		</sml:ContactList>
-    </sml:contacts>
-
+	
+	<?php if (!empty($coordinates)): ?>	
     <sml:featuresOfInterest>
       <sml:FeatureList>
         <sml:feature>
@@ -96,7 +96,8 @@ xmlns:sf="http://www.opengis.net/sampling/2.0">
         </sml:feature>
       </sml:FeatureList>
     </sml:featuresOfInterest>
-
+	<?php endif; ?>
+	
     <sml:outputs>
       <sml:OutputList>
 		<?php echo $parameters; ?>

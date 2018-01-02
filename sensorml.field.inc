@@ -23,7 +23,7 @@ function sensorml_field_formatter_info() {
     'label' => t('sensorML element'),
     'field types' => array('entityreference'),
     'settings' => array(
-      'element' => '',
+	  'element' => '',
       'multiple' => 0,
     ),
   );
@@ -217,7 +217,7 @@ function sensorml_field_formatter_view($entity_type, $entity, $field, $instance,
         ); */
         $element = array(
           '#theme' => 'sensorml_elements',
-          '#sensorml' => array('sml:KeywordList' => array('sml:keywords' => $keywords)),
+          '#sensorml' => array('sml:KeywordList' => $keywords),
         );
       }
       break;
@@ -429,7 +429,7 @@ function sensorml_field_formatter_view($entity_type, $entity, $field, $instance,
 			$element[$delta] = array(
 				'#theme' => 'sensorml_elements',
 				'#sensorml' => array(
-					"sml:output name = '$title_wo_parentheses'" => array("swe:Quantity definition='$envthes_term_url'" => array("swe:uom code = 'filler_code'" => "filler_value"),
+					"sml:output name = '$title_wo_parentheses'" => array("swe:Quantity definition='$envthes_term_url'" => array("swe:uom code = 'filler_code'" => ""),
 				),
           ),
         );
